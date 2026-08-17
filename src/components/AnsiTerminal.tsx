@@ -63,7 +63,7 @@ function AnsiTerminal() {
   const [hasStarted, setHasStarted] = useState(false);
   const [revealedLines, setRevealedLines] = useState(0);
   const [colorCycle, setColorCycle] = useState(0);
-  const [audioOn, setAudioOn] = useState(false);
+  const [audioOn, setAudioOn] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const [iframeLoaded, setIframeLoaded] = useState(false);
@@ -80,6 +80,7 @@ function AnsiTerminal() {
 
   useEffect(() => {
     const storedAudioOn = localStorage.getItem('devville-audio-on');
+    if (storedAudioOn === '0') setAudioOn(false);
     if (storedAudioOn === '1') setAudioOn(true);
 
     setPlaying(true);
