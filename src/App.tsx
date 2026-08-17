@@ -3,8 +3,15 @@ import AnsiTerminal from '@/components/AnsiTerminal';
 import LinkGrid from '@/components/LinkGrid';
 import RubberDuck from '@/components/RubberDuck';
 import { Copyright, Sparkles } from 'lucide-react';
+import { useCallback, useState } from 'react';
 
 function App() {
+  const [showRick, setShowRick] = useState(false);
+
+  const handleTerminalStart = useCallback(() => {
+    setShowRick(true);
+  }, []);
+
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 flex flex-col items-center gap-12 sm:gap-16">
@@ -27,10 +34,10 @@ function App() {
         {/* HERO */}
         <section className="flex flex-col lg:flex-row items-center justify-center gap-8 sm:gap-10 w-full">
           <div className="flex justify-center w-full lg:w-1/2">
-            <RickCutout />
+            {showRick ? <RickCutout /> : null}
           </div>
           <div className="flex justify-center w-full lg:w-1/2">
-            <AnsiTerminal />
+            <AnsiTerminal onStart={handleTerminalStart} />
           </div>
         </section>
 

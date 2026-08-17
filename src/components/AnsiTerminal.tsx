@@ -12,7 +12,7 @@ const ART_LINES = [
   '\x1b[1;32m\\__/|____/ \\____/ |_| \\_|\x1b[0m',
   '',
   '\x1b[1;32m▶\x1b[0m \x1b[1;33mNOW PLAYING:\x1b[0m Never Gonna Give You Up — Rick Astley',
-  '\x1b[1;90m  (press PLAY if your browser blocks autoplay)\x1b[0m',
+  '\x1b[1;90m  (click CONNECT if your browser blocks playback)\x1b[0m',
   '',
 ];
 const LYRICS = [
@@ -58,53 +58,29 @@ function getLine(index: number, colorCycle: number): string {
   return STATUS_LINE;
 }
 
-function AnsiTerminal() {
+type AnsiTerminalProps = {
+  onStart?: () => void;
+};
+
+function AnsiTerminal({ onStart }: AnsiTerminalProps) {
   const [playing, setPlaying] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const [revealedLines, setRevealedLines] = useState(0);
   const [colorCycle, setColorCycle] = useState(0);
   const [audioOn, setAudioOn] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  const [userInteracted, setUserInteracted] = useState(false);
-
-  const [iframeLoaded, setIframeLoaded] = useState(false);
   const [iframeNonce, setIframeNonce] = useState(0);
 
   const embedUrl = useMemo(() => {
     if (!playing) return '';
-    const muted = !userInteracted || !audioOn;
-    return buildYouTubeEmbedUrl({ autoplay: true, muted });
-  }, [playing, audioOn, iframeNonce, userInteracted]);
-
-  useEffect(() => {
-    setIframeLoaded(false);
-  }, [embedUrl]);
+    return buildYouTubeEmbedUrl({ autoplay: true, muted: !audioOn });
+  }, [playing, audioOn, iframeNonce]);
 
   useEffect(() => {
     const storedAudioOn = localStorage.getItem('devville-audio-on');
     if (storedAudioOn === '0') setAudioOn(false);
     if (storedAudioOn === '1') setAudioOn(true);
-
-    setPlaying(true);
-    setHasStarted(true);
-    setIframeNonce((n) => n + 1);
   }, []);
-
-  useEffect(() => {
-    const markInteracted = () => setUserInteracted(true);
-    window.addEventListener('pointerdown', markInteracted, { once: true, capture: true });
-    window.addEventListener('keydown', markInteracted, { once: true, capture: true });
-    return () => {
-      window.removeEventListener('pointerdown', markInteracted, true);
-      window.removeEventListener('keydown', markInteracted, true);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!userInteracted || !playing || !audioOn) return;
-    setIframeNonce((n) => n + 1);
-  }, [userInteracted, playing, audioOn]);
 
   useEffect(() => {
     if (!playing || revealedLines >= TOTAL_LINES) return;
@@ -131,7 +107,8 @@ function AnsiTerminal() {
     setPlaying(true);
     setHasStarted(true);
     setIframeNonce((n) => n + 1);
-  }, []);
+    onStart?.();
+  }, [onStart]);
 
   const handlePause = useCallback(() => {
     setPlaying(false);
@@ -143,7 +120,8 @@ function AnsiTerminal() {
     setPlaying(true);
     setHasStarted(true);
     setIframeNonce((n) => n + 1);
-  }, []);
+    onStart?.();
+  }, [onStart]);
 
   const toggleAudio = useCallback(() => {
     setAudioOn((prev) => !prev);
@@ -160,10 +138,10 @@ function AnsiTerminal() {
       lines.push(getLine(i, colorCycle));
     }
   } else {
-    lines.push('\x1b[1;90m  [press PLAY to begin the rick roll]\x1b[0m');
+    lines.push('\x1b[1;90m  [click CONNECT to begin]\x1b[0m');
   }
-  if (hasStarted && playing && (!userInteracted || !audioOn)) {
-    lines.push('\x1b[1;90m  [autoplay starts muted — click/tap anywhere (or hit a key) for sound]\x1b[0m');
+  if (hasStarted && playing && !audioOn) {
+    lines.push('\x1b[1;90m  [audio muted — click the speaker to unmute]\x1b[0m');
   }
   const content = lines.join('\n');
   const isFinished = hasStarted && revealedLines >= TOTAL_LINES;
@@ -232,13 +210,10 @@ function AnsiTerminal() {
                 </>
               ) : (
                 <>
-                  <Play size={20} fill="currentColor" /> {hasStarted ? 'RESUME' : 'PLAY RICK ROLL'}
+                  <Play size={20} fill="currentColor" /> {hasStarted ? 'RESUME' : 'CLICK TO CONNECT'}
                 </>
               )}
             </button>
-            {playing && !iframeLoaded && (
-              <span className="font-mono text-[10px] text-terminal-dim animate-pulse">loading audio...</span>
-            )}
           </div>
         )}
       </div>
@@ -264,7 +239,6 @@ function AnsiTerminal() {
             height="100"
             allow="autoplay; encrypted-media"
             referrerPolicy="strict-origin-when-cross-origin"
-            onLoad={() => setIframeLoaded(true)}
           />
         ) : null}
       </div>
