@@ -66,13 +66,16 @@ function AnsiTerminal() {
   const [audioOn, setAudioOn] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const [userInteracted, setUserInteracted] = useState(false);
+
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [iframeNonce, setIframeNonce] = useState(0);
 
   const embedUrl = useMemo(() => {
     if (!playing) return '';
-    return buildYouTubeEmbedUrl({ autoplay: true, muted: !audioOn });
-  }, [playing, audioOn, iframeNonce]);
+    const muted = !userInteracted || !audioOn;
+    return buildYouTubeEmbedUrl({ autoplay: true, muted });
+  }, [playing, audioOn, iframeNonce, userInteracted]);
 
   useEffect(() => {
     setIframeLoaded(false);
@@ -87,6 +90,21 @@ function AnsiTerminal() {
     setHasStarted(true);
     setIframeNonce((n) => n + 1);
   }, []);
+
+  useEffect(() => {
+    const markInteracted = () => setUserInteracted(true);
+    window.addEventListener('pointerdown', markInteracted, { once: true, capture: true });
+    window.addEventListener('keydown', markInteracted, { once: true, capture: true });
+    return () => {
+      window.removeEventListener('pointerdown', markInteracted, true);
+      window.removeEventListener('keydown', markInteracted, true);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!userInteracted || !playing || !audioOn) return;
+    setIframeNonce((n) => n + 1);
+  }, [userInteracted, playing, audioOn]);
 
   useEffect(() => {
     if (!playing || revealedLines >= TOTAL_LINES) return;
@@ -144,8 +162,8 @@ function AnsiTerminal() {
   } else {
     lines.push('\x1b[1;90m  [press PLAY to begin the rick roll]\x1b[0m');
   }
-  if (hasStarted && playing && !audioOn) {
-    lines.push('\x1b[1;90m  [autoplaying muted — click the speaker to unmute]\x1b[0m');
+  if (hasStarted && playing && (!userInteracted || !audioOn)) {
+    lines.push('\x1b[1;90m  [autoplay starts muted — click/tap anywhere (or hit a key) for sound]\x1b[0m');
   }
   const content = lines.join('\n');
   const isFinished = hasStarted && revealedLines >= TOTAL_LINES;
