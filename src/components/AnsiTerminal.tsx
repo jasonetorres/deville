@@ -63,7 +63,7 @@ function AnsiTerminal() {
   const [hasStarted, setHasStarted] = useState(false);
   const [revealedLines, setRevealedLines] = useState(0);
   const [colorCycle, setColorCycle] = useState(0);
-  const [audioOn, setAudioOn] = useState(true);
+  const [audioOn, setAudioOn] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const [iframeLoaded, setIframeLoaded] = useState(false);
@@ -77,6 +77,15 @@ function AnsiTerminal() {
   useEffect(() => {
     setIframeLoaded(false);
   }, [embedUrl]);
+
+  useEffect(() => {
+    const storedAudioOn = localStorage.getItem('devville-audio-on');
+    if (storedAudioOn === '1') setAudioOn(true);
+
+    setPlaying(true);
+    setHasStarted(true);
+    setIframeNonce((n) => n + 1);
+  }, []);
 
   useEffect(() => {
     if (!playing || revealedLines >= TOTAL_LINES) return;
@@ -122,6 +131,10 @@ function AnsiTerminal() {
     if (playing) setIframeNonce((n) => n + 1);
   }, [playing]);
 
+  useEffect(() => {
+    localStorage.setItem('devville-audio-on', audioOn ? '1' : '0');
+  }, [audioOn]);
+
   const lines: string[] = [PROMPT];
   if (hasStarted) {
     for (let i = 0; i < revealedLines && i < TOTAL_LINES; i++) {
@@ -129,6 +142,9 @@ function AnsiTerminal() {
     }
   } else {
     lines.push('\x1b[1;90m  [press PLAY to begin the rick roll]\x1b[0m');
+  }
+  if (hasStarted && playing && !audioOn) {
+    lines.push('\x1b[1;90m  [autoplaying muted — click the speaker to unmute]\x1b[0m');
   }
   const content = lines.join('\n');
   const isFinished = hasStarted && revealedLines >= TOTAL_LINES;
