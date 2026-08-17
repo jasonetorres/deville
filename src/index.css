@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Anton&family=Patrick+Hand&family=JetBrains+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-cream text-ink font-body antialiased;
+    background-image:
+      linear-gradient(
+        to bottom,
+        rgba(124, 227, 245, 0.9) 0%,
+        rgba(124, 227, 245, 0.9) 58%,
+        rgba(90, 185, 92, 0.95) 58%,
+        rgba(46, 90, 60, 0.95) 100%
+      ),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 0 0.08 0 0 0 0.18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: cover, 220px 220px;
+    background-attachment: fixed;
+  }
+}
+
+@layer components {
+  .paper-card {
+    @apply relative bg-cream border-[3px] border-ink rounded-[6px] shadow-paper transition-all duration-200 ease-out;
+  transform: translateZ(0);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 0 0.08 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+  }
+  .paper-card:hover {
+    @apply shadow-paper-lift;
+    transform: translate(-3px, -5px) translateZ(0);
+  }
+  .cutout {
+    @apply border-[3px] border-ink;
+  }
+}
+
+@layer utilities {
+  .text-stroke-ink {
+    -webkit-text-stroke: 2px #1A1714;
+    paint-order: stroke fill;
+  }
+  .glow-green {
+    text-shadow: 0 0 6px rgba(90, 247, 142, 0.7), 0 0 14px rgba(90, 247, 142, 0.35);
+  animation: blink 4s ease-in-out infinite;
+  }
+  .glow-cyan {
+    text-shadow: 0 0 6px rgba(124, 227, 245, 0.7), 0 0 14px rgba(124, 227, 245, 0.35);
+  }
+  .cursor-blink {
+    color: #5AF78E;
+    animation: cursorblink 1s step-end infinite;
+  }
+}
+
+@keyframes cursorblink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
