@@ -3,14 +3,25 @@ import AnsiTerminal from '@/components/AnsiTerminal';
 import LinkGrid from '@/components/LinkGrid';
 import RubberDuck from '@/components/RubberDuck';
 import { Copyright, Sparkles } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 function App() {
+  const [connected, setConnected] = useState(false);
   const [showRick, setShowRick] = useState(false);
 
   const handleTerminalStart = useCallback(() => {
-    setShowRick(true);
+    setConnected(true);
   }, []);
+
+  useEffect(() => {
+    if (!connected) {
+      setShowRick(false);
+      return;
+    }
+
+    const timer = window.setTimeout(() => setShowRick(true), 450);
+    return () => window.clearTimeout(timer);
+  }, [connected]);
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
@@ -32,12 +43,35 @@ function App() {
         </header>
 
         {/* HERO */}
-        <section className="flex flex-col lg:flex-row items-center justify-center gap-8 sm:gap-10 w-full">
-          <div className="flex justify-center w-full lg:w-1/2">
-            {showRick ? <RickCutout /> : null}
-          </div>
-          <div className="flex justify-center w-full lg:w-1/2">
-            <AnsiTerminal onStart={handleTerminalStart} />
+        <section className="w-full flex flex-col items-center gap-8 sm:gap-10">
+          <div
+            className={
+              'w-full grid grid-cols-1 items-center justify-items-center gap-8 transition-all duration-700 ease-out ' +
+              (connected ? 'lg:grid-cols-2 lg:gap-10 lg:items-center' : '')
+            }
+          >
+            <div
+              className={
+                'flex justify-center w-full transition-all duration-700 ease-out ' +
+                (showRick
+                  ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
+                  : 'opacity-0 translate-y-4 scale-[0.9] pointer-events-none')
+              }
+              style={{ maxHeight: showRick ? 760 : 0, overflow: 'hidden' }}
+            >
+              <RickCutout />
+            </div>
+
+            <div
+              className={
+                'w-full flex justify-center transition-all duration-700 ease-out ' +
+                (connected ? 'lg:justify-end' : '')
+              }
+            >
+              <div className="w-full flex justify-center max-w-[640px] lg:max-w-[560px]">
+                <AnsiTerminal onStart={handleTerminalStart} />
+              </div>
+            </div>
           </div>
         </section>
 

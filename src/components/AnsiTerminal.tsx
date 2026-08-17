@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { Play, Pause, RotateCcw, Terminal, Volume2, VolumeX } from 'lucide-react';
 import { ansiToHtml } from '@/lib/ansiToHtml';
 
@@ -31,20 +31,11 @@ const TOTAL_LINES = ART_LINES.length + LYRICS.length + 2;
 
 const YT_ID = 'dQw4w9WgXcQ';
 
-function buildYouTubeEmbedUrl({ autoplay, muted }: { autoplay: boolean; muted: boolean }) {
-  const params = new URLSearchParams({
-    autoplay: autoplay ? '1' : '0',
-    controls: '0',
-    disablekb: '1',
-    fs: '0',
-    modestbranding: '1',
-    playsinline: '1',
-    rel: '0',
-    loop: '1',
-    playlist: YT_ID,
-    mute: muted ? '1' : '0',
-  });
-  return `https://www.youtube-nocookie.com/embed/${YT_ID}?${params.toString()}`;
+declare global {
+  interface Window {
+    YT?: any;
+    onYouTubeIframeAPIReady?: () => void;
+  }
 }
 
 function getLine(index: number, colorCycle: number): string {
@@ -69,18 +60,72 @@ function AnsiTerminal({ onStart }: AnsiTerminalProps) {
   const [colorCycle, setColorCycle] = useState(0);
   const [audioOn, setAudioOn] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [iframeNonce, setIframeNonce] = useState(0);
 
-  const embedUrl = useMemo(() => {
-    if (!playing) return '';
-    return buildYouTubeEmbedUrl({ autoplay: true, muted: !audioOn });
-  }, [playing, audioOn, iframeNonce]);
+  const playerElRef = useRef<HTMLDivElement | null>(null);
+  const playerRef = useRef<any>(null);
+  const playerReadyRef = useRef(false);
+  const pendingPlayRef = useRef(false);
 
   useEffect(() => {
     const storedAudioOn = localStorage.getItem('devville-audio-on');
     if (storedAudioOn === '0') setAudioOn(false);
     if (storedAudioOn === '1') setAudioOn(true);
   }, []);
+
+  useEffect(() => {
+    if (!playerElRef.current) return;
+    if (playerRef.current) return;
+
+    const initPlayer = () => {
+      if (!playerElRef.current || playerRef.current || !window.YT?.Player) return;
+
+      playerRef.current = new window.YT.Player(playerElRef.current, {
+        host: 'https://www.youtube-nocookie.com',
+        videoId: YT_ID,
+        playerVars: {
+          autoplay: 0,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          modestbranding: 1,
+          playsinline: 1,
+          rel: 0,
+          loop: 1,
+          playlist: YT_ID,
+        },
+        events: {
+          onReady: () => {
+            playerReadyRef.current = true;
+            if (!audioOn) playerRef.current?.mute?.();
+            if (pendingPlayRef.current) {
+              pendingPlayRef.current = false;
+              playerRef.current?.playVideo?.();
+            }
+          },
+        },
+      });
+    };
+
+    if (window.YT?.Player) {
+      initPlayer();
+      return;
+    }
+
+    const existingScript = document.querySelector<HTMLScriptElement>('script[data-youtube-iframe-api="1"]');
+    if (!existingScript) {
+      const script = document.createElement('script');
+      script.src = 'https://www.youtube.com/iframe_api';
+      script.async = true;
+      script.dataset.youtubeIframeApi = '1';
+      document.head.appendChild(script);
+    }
+
+    const prevReady = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      prevReady?.();
+      initPlayer();
+    };
+  }, [audioOn]);
 
   useEffect(() => {
     if (!playing || revealedLines >= TOTAL_LINES) return;
@@ -106,12 +151,21 @@ function AnsiTerminal({ onStart }: AnsiTerminalProps) {
   const handlePlay = useCallback(() => {
     setPlaying(true);
     setHasStarted(true);
-    setIframeNonce((n) => n + 1);
     onStart?.();
-  }, [onStart]);
+
+    if (!playerReadyRef.current) {
+      pendingPlayRef.current = true;
+      return;
+    }
+
+    if (!audioOn) playerRef.current?.mute?.();
+    else playerRef.current?.unMute?.();
+    playerRef.current?.playVideo?.();
+  }, [onStart, audioOn]);
 
   const handlePause = useCallback(() => {
     setPlaying(false);
+    playerRef.current?.pauseVideo?.();
   }, []);
 
   const handleReplay = useCallback(() => {
@@ -119,14 +173,25 @@ function AnsiTerminal({ onStart }: AnsiTerminalProps) {
     setColorCycle(0);
     setPlaying(true);
     setHasStarted(true);
-    setIframeNonce((n) => n + 1);
     onStart?.();
-  }, [onStart]);
+
+    if (!playerReadyRef.current) {
+      pendingPlayRef.current = true;
+      return;
+    }
+
+    if (!audioOn) playerRef.current?.mute?.();
+    else playerRef.current?.unMute?.();
+    playerRef.current?.seekTo?.(0, true);
+    playerRef.current?.playVideo?.();
+  }, [onStart, audioOn]);
 
   const toggleAudio = useCallback(() => {
     setAudioOn((prev) => !prev);
-    if (playing) setIframeNonce((n) => n + 1);
-  }, [playing]);
+    if (!playerReadyRef.current) return;
+    if (audioOn) playerRef.current?.mute?.();
+    else playerRef.current?.unMute?.();
+  }, [audioOn]);
 
   useEffect(() => {
     localStorage.setItem('devville-audio-on', audioOn ? '1' : '0');
@@ -226,21 +291,10 @@ function AnsiTerminal({ onStart }: AnsiTerminalProps) {
       </div>
 
       <div
-        className="absolute opacity-0 pointer-events-none overflow-hidden"
-        style={{ width: 1, height: 1, left: -9999, top: -9999 }}
+        className="absolute inset-0 opacity-0 pointer-events-none overflow-hidden"
         aria-hidden="true"
       >
-        {embedUrl ? (
-          <iframe
-            key={embedUrl}
-            src={embedUrl}
-            title="rickroll-audio"
-            width="200"
-            height="100"
-            allow="autoplay; encrypted-media"
-            referrerPolicy="strict-origin-when-cross-origin"
-          />
-        ) : null}
+        <div ref={playerElRef} />
       </div>
     </div>
   );
