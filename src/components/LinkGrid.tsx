@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { Code2, Github, Linkedin, Twitter } from 'lucide-react';
+import { BookOpen, Code2, Github, Linkedin, Twitter } from 'lucide-react';
 
 type LinkCard = {
   icon: LucideIcon;
@@ -8,9 +8,26 @@ type LinkCard = {
   url: string;
   bg: string;
   accent: string;
+  onClick?: (e: React.MouseEvent, onOpenBlog?: () => void) => void;
 };
 
 const LINKS: LinkCard[] = [
+  {
+    icon: BookOpen,
+    title: 'Read the Blog',
+    subtitle: 'I Built a 26 slide conference deck with AI',
+    url: '#blog',
+    bg: 'bg-forest',
+    accent: 'text-cream',
+    onClick: (e, onOpenBlog) => {
+      e.preventDefault();
+      if (onOpenBlog) {
+        onOpenBlog();
+      } else {
+        window.location.hash = '#blog';
+      }
+    },
+  },
   {
     icon: Twitter,
     title: 'Follow on X / Twitter',
@@ -45,18 +62,25 @@ const LINKS: LinkCard[] = [
   },
 ];
 
-function LinkGrid() {
+interface LinkGridProps {
+  onOpenBlog?: () => void;
+}
+
+function LinkGrid({ onOpenBlog }: LinkGridProps) {
   return (
     <div className="grid grid-cols-1 gap-5 sm:gap-6 w-full max-w-3xl">
       {LINKS.map((link) => {
         const Icon = link.icon;
+        const isInternal = Boolean(link.onClick);
+
         return (
           <a
             key={link.title}
             href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="paper-card cutout group flex items-center gap-4 p-4 sm:p-5 no-underline"
+            target={isInternal ? undefined : '_blank'}
+            rel={isInternal ? undefined : 'noopener noreferrer'}
+            onClick={link.onClick ? (e) => link.onClick?.(e, onOpenBlog) : undefined}
+            className="paper-card cutout group flex items-center gap-4 p-4 sm:p-5 no-underline cursor-pointer"
           >
             <div
               className={`flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 ${link.bg} border-[3px] border-ink rounded-[10px] flex items-center justify-center ${link.accent} transition-transform duration-200 group-hover:rotate-[-6deg] group-hover:scale-110`}

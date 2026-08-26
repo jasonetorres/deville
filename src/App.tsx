@@ -1,3 +1,4 @@
+import BlogPost from '@/components/BlogPost';
 import RickCutout from '@/components/RickCutout';
 import AnsiTerminal from '@/components/AnsiTerminal';
 import LinkGrid from '@/components/LinkGrid';
@@ -6,8 +7,36 @@ import { Copyright, Sparkles } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 
 function App() {
+  const [currentPage, setCurrentPage] = useState<'home' | 'blog'>(() => {
+    return window.location.hash === '#blog' ? 'blog' : 'home';
+  });
   const [connected, setConnected] = useState(false);
   const [showRick, setShowRick] = useState(false);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const isBlog = window.location.hash === '#blog';
+      setCurrentPage(isBlog ? 'blog' : 'home');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const navigateToBlog = useCallback(() => {
+    window.location.hash = '#blog';
+    setCurrentPage('blog');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const navigateToHome = useCallback(() => {
+    if (window.location.hash === '#blog') {
+      window.history.pushState(null, '', window.location.pathname + window.location.search);
+    }
+    setCurrentPage('home');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   const handleTerminalStart = useCallback(() => {
     setConnected(true);
@@ -23,6 +52,10 @@ function App() {
     return () => window.clearTimeout(timer);
   }, [connected]);
 
+  if (currentPage === 'blog') {
+    return <BlogPost onBack={navigateToHome} />;
+  }
+
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 flex flex-col items-center gap-12 sm:gap-16">
@@ -30,7 +63,7 @@ function App() {
         <header className="flex flex-col items-center text-center gap-3 sm:gap-4 w-full">
           <div className="inline-flex items-center gap-2 bg-rust text-cream font-mono text-xs sm:text-sm font-bold tracking-widest uppercase px-4 py-2 border-[3px] border-ink rounded-full shadow-paper-sm rotate-[-1.5deg]">
             <Sparkles size={14} className="text-amber" />
-            Devville Surprise Repository
+            Devville Surprise Site
           </div>
           <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl text-ink leading-[1.05] tracking-wide max-w-3xl">
             Never Gonna Give Your{' '}
@@ -76,12 +109,14 @@ function App() {
         </section>
 
         {/* LINKS */}
-        <section className="flex flex-col items-center gap-6 w-full">
-          <h2 className="font-display text-3xl sm:text-4xl text-slateblue text-stroke-ink tracking-wide">
-            Find Me Around Devville
-          </h2>
-          <LinkGrid />
-        </section>
+        {connected && (
+          <section className="flex flex-col items-center gap-6 w-full">
+            <h2 className="font-display text-3xl sm:text-4xl text-slateblue text-stroke-ink tracking-wide">
+              Find Me Around Devville
+            </h2>
+            <LinkGrid onOpenBlog={navigateToBlog} />
+          </section>
+        )}
 
         {/* FOOTER */}
         <footer className="relative w-full max-w-3xl paper-card cutout p-6 sm:p-8 mt-4">
