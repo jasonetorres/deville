@@ -2,8 +2,7 @@ import BlogPost from '@/components/BlogPost';
 import RickCutout from '@/components/RickCutout';
 import AnsiTerminal from '@/components/AnsiTerminal';
 import LinkGrid from '@/components/LinkGrid';
-import RubberDuck from '@/components/RubberDuck';
-import { Copyright, Sparkles } from 'lucide-react';
+import { Heart, Home, MailOpen } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 
 function App() {
@@ -48,7 +47,7 @@ function App() {
       return;
     }
 
-    const timer = window.setTimeout(() => setShowRick(true), 450);
+    const timer = window.setTimeout(() => setShowRick(true), 500);
     return () => window.clearTimeout(timer);
   }, [connected]);
 
@@ -58,79 +57,95 @@ function App() {
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 flex flex-col items-center gap-12 sm:gap-16">
-        {/* HEADER */}
-        <header className="flex flex-col items-center text-center gap-3 sm:gap-4 w-full">
-          <div className="inline-flex items-center gap-2 bg-rust text-cream font-mono text-xs sm:text-sm font-bold tracking-widest uppercase px-4 py-2 border-[3px] border-ink rounded-full shadow-paper-sm rotate-[-1.5deg]">
-            <Sparkles size={14} className="text-amber" />
-            Devville Surprise Site
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16 flex flex-col items-center gap-10 sm:gap-14">
+        <header className="w-full flex flex-col items-center text-center">
+          <div className="inline-flex items-center gap-2 rounded-full bg-slateblue text-cream font-body text-[11px] sm:text-xs font-extrabold tracking-[0.18em] uppercase px-4 py-2 shadow-paper-sm">
+            <Home size={14} aria-hidden="true" />
+            Mister Torres&apos; Neighborhood · Episode 2
           </div>
-          <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl text-ink leading-[1.05] tracking-wide max-w-3xl">
-            Never Gonna Give Your{' '}
-            <span className="text-forest text-stroke-ink">IDE</span>{' '}
-            Up!
+
+          <h1 className="font-display text-5xl sm:text-7xl lg:text-[5.5rem] text-slateblue leading-[0.98] mt-5 tracking-[-0.03em]">
+            Welcome, neighbor.
           </h1>
-          <p className="font-body text-xl sm:text-2xl text-ink/80 max-w-xl">
-            You've been vibe-coded.
+
+          <div className="w-24 h-1.5 rounded-full bg-rust mt-5" />
+
+          <p className="font-body text-lg sm:text-xl text-ink/75 max-w-2xl mt-5 leading-relaxed">
+            You found the little corner of the neighborhood from Episode 2.
+            There&apos;s one more thing I wanted to show you before you go.
           </p>
         </header>
 
-        {/* HERO */}
-        <section className="w-full flex flex-col items-center gap-8 sm:gap-10">
-          <div
-            className={
-              'w-full grid grid-cols-1 items-center justify-items-center gap-8 transition-all duration-700 ease-out ' +
-              (connected ? 'lg:grid-cols-2 lg:gap-10 lg:items-center' : '')
-            }
-          >
-            <div
-              className={
-                'flex justify-center w-full transition-all duration-700 ease-out ' +
-                (showRick
-                  ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
-                  : 'opacity-0 translate-y-4 scale-[0.9] pointer-events-none')
-              }
-              style={{ maxHeight: showRick ? 760 : 0, overflow: 'hidden' }}
-            >
-              <RickCutout />
-            </div>
+        <section className="w-full max-w-4xl">
+          <div className="wood-frame rounded-[28px] p-3 sm:p-4 lg:p-5">
+            <div className="tv-screen rounded-[20px] sm:rounded-[22px] px-4 py-6 sm:p-8 lg:p-10 min-h-[460px] flex flex-col justify-center">
+              <div className="flex flex-col items-center text-center mb-6 sm:mb-8">
+                <span className="inline-flex items-center gap-2 text-amber-light font-body text-xs sm:text-sm font-extrabold uppercase tracking-[0.16em]">
+                  <MailOpen size={16} aria-hidden="true" />
+                  Picture Picture has a message
+                </span>
+                <h2 className="font-display text-3xl sm:text-4xl text-cream mt-2">
+                  I brought you something.
+                </h2>
+                {!connected && (
+                  <p className="text-cream/70 font-body text-sm sm:text-base max-w-lg mt-2">
+                    Open today&apos;s delivery. No metrics. No dashboards. Definitely nothing suspicious.
+                  </p>
+                )}
+              </div>
 
-            <div
-              className={
-                'w-full flex justify-center transition-all duration-700 ease-out ' +
-                (connected ? 'lg:justify-end' : '')
-              }
-            >
-              <div className="w-full flex justify-center max-w-[640px] lg:max-w-[560px]">
-                <AnsiTerminal onStart={handleTerminalStart} />
+              <div
+                className={
+                  'w-full grid grid-cols-1 items-center justify-items-center gap-7 transition-all duration-700 ease-out ' +
+                  (connected ? 'lg:grid-cols-[0.75fr_1.25fr] lg:gap-8' : '')
+                }
+              >
+                <div
+                  className={
+                    'flex justify-center w-full transition-all duration-700 ease-out ' +
+                    (showRick
+                      ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
+                      : 'opacity-0 translate-y-4 scale-[0.92] pointer-events-none')
+                  }
+                  style={{ maxHeight: showRick ? 680 : 0, overflow: 'hidden' }}
+                >
+                  <RickCutout />
+                </div>
+
+                <div className="w-full flex justify-center">
+                  <div className="w-full max-w-[640px]">
+                    <AnsiTerminal onStart={handleTerminalStart} />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* LINKS */}
         {connected && (
-          <section className="flex flex-col items-center gap-6 w-full">
-            <h2 className="font-display text-3xl sm:text-4xl text-slateblue text-stroke-ink tracking-wide">
-              Find Me Around Devville
-            </h2>
+          <section className="flex flex-col items-center gap-7 w-full">
+            <div className="text-center">
+              <p className="font-body font-extrabold uppercase tracking-[0.16em] text-rust text-xs">
+                Stay awhile
+              </p>
+              <h2 className="font-display text-3xl sm:text-4xl text-slateblue mt-1">
+                Around the Neighborhood
+              </h2>
+            </div>
             <LinkGrid onOpenBlog={navigateToBlog} />
           </section>
         )}
 
-        {/* FOOTER */}
-        <footer className="relative w-full max-w-3xl paper-card cutout p-6 sm:p-8 mt-4">
-          <p className="font-body text-lg sm:text-xl text-ink text-center leading-relaxed max-w-2xl mx-auto">
-            <span className="inline-flex items-center justify-center gap-2">
-              <Copyright size={18} strokeWidth={2.5} className="text-ink" aria-hidden="true" />
-              Jason Torres 2026
-            </span>
+        <footer className="w-full max-w-3xl text-center pt-2 pb-6">
+          <div className="h-[3px] w-full max-w-md mx-auto stitched-rule mb-6 opacity-70" />
+          <p className="font-display text-2xl sm:text-3xl text-slateblue">
+            Won&apos;t you be my neighbor?
           </p>
-          <div className="absolute -bottom-2 -right-2 sm:bottom-2 sm:right-2">
-            <RubberDuck />
-          </div>
+          <p className="font-body text-sm text-ink/60 mt-2 inline-flex items-center gap-1.5">
+            Made with <Heart size={14} fill="currentColor" className="text-rust" aria-hidden="true" /> by Jason Torres · 2026
+          </p>
         </footer>
-      </div>
+      </main>
     </div>
   );
 }
