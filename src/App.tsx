@@ -1,4 +1,6 @@
 import BlogPost from '@/components/BlogPost';
+import BlogArchive from '@/components/BlogArchive';
+import Episode2Post from '@/components/Episode2Post';
 import RickCutout from '@/components/RickCutout';
 import AnsiTerminal from '@/components/AnsiTerminal';
 import LinkGrid from '@/components/LinkGrid';
@@ -6,16 +8,21 @@ import { Heart, Home, MailOpen } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'blog'>(() => {
-    return window.location.hash === '#blog' ? 'blog' : 'home';
+  const [currentPage, setCurrentPage] = useState<'home' | 'archive' | 'episode1' | 'episode2'>(() => {
+    if (window.location.hash === '#episode2') return 'episode2';
+    if (window.location.hash === '#episode1' || window.location.hash === '#blog') return 'episode1';
+    if (window.location.hash === '#archive') return 'archive';
+    return 'home';
   });
   const [connected, setConnected] = useState(false);
   const [showRick, setShowRick] = useState(false);
 
   useEffect(() => {
     const handleHashChange = () => {
-      const isBlog = window.location.hash === '#blog';
-      setCurrentPage(isBlog ? 'blog' : 'home');
+      if (window.location.hash === '#episode2') setCurrentPage('episode2');
+      else if (window.location.hash === '#episode1' || window.location.hash === '#blog') setCurrentPage('episode1');
+      else if (window.location.hash === '#archive') setCurrentPage('archive');
+      else setCurrentPage('home');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -23,14 +30,26 @@ function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  const navigateToBlog = useCallback(() => {
-    window.location.hash = '#blog';
-    setCurrentPage('blog');
+  const navigateToArchive = useCallback(() => {
+    window.location.hash = '#archive';
+    setCurrentPage('archive');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const navigateToEpisode1 = useCallback(() => {
+    window.location.hash = '#episode1';
+    setCurrentPage('episode1');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const navigateToEpisode2 = useCallback(() => {
+    window.location.hash = '#episode2';
+    setCurrentPage('episode2');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const navigateToHome = useCallback(() => {
-    if (window.location.hash === '#blog') {
+    if (window.location.hash) {
       window.history.pushState(null, '', window.location.pathname + window.location.search);
     }
     setCurrentPage('home');
@@ -51,8 +70,22 @@ function App() {
     return () => window.clearTimeout(timer);
   }, [connected]);
 
-  if (currentPage === 'blog') {
-    return <BlogPost onBack={navigateToHome} />;
+  if (currentPage === 'archive') {
+    return (
+      <BlogArchive
+        onBack={navigateToHome}
+        onOpenEpisode1={navigateToEpisode1}
+        onOpenEpisode2={navigateToEpisode2}
+      />
+    );
+  }
+
+  if (currentPage === 'episode1') {
+    return <BlogPost onBack={navigateToArchive} />;
+  }
+
+  if (currentPage === 'episode2') {
+    return <Episode2Post onBack={navigateToArchive} />;
   }
 
   return (
@@ -132,7 +165,7 @@ function App() {
                 Around the Neighborhood
               </h2>
             </div>
-            <LinkGrid onOpenBlog={navigateToBlog} />
+            <LinkGrid onOpenBlog={navigateToArchive} />
           </section>
         )}
 
