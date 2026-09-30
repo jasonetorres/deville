@@ -213,8 +213,8 @@ function AnsiTerminal({ onStart }: AnsiTerminalProps) {
   const showOverlay = !playing;
 
   return (
-    <div className="paper-card cutout overflow-hidden w-full max-w-[640px] relative">
-      <div className="flex items-center justify-between bg-terminal-bg px-4 py-2.5 border-b-[3px] border-ink">
+    <div className="overflow-hidden w-full max-w-[640px] relative rounded-[14px] border border-cream/15 shadow-[0_14px_30px_rgba(0,0,0,.22)]">
+      <div className="flex items-center justify-between bg-terminal-bg px-4 py-2.5 border-b border-terminal-dim/70">
         <div className="flex items-center gap-2.5">
           <div className="flex gap-1.5">
             <span className="w-3 h-3 rounded-full bg-rust border border-ink" />
@@ -267,7 +267,7 @@ function AnsiTerminal({ onStart }: AnsiTerminalProps) {
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-terminal-bg/70 backdrop-blur-[2px]">
             <button
               onClick={isFinished ? handleReplay : handlePlay}
-              className="flex items-center gap-2 bg-forest text-amber font-display text-lg tracking-wide px-6 py-3 border-[3px] border-ink rounded-[6px] shadow-paper hover:shadow-paper-lift transition-all hover:-translate-x-1 hover:-translate-y-1"
+              className="flex items-center gap-2 bg-rust text-cream font-body text-sm sm:text-base font-extrabold tracking-[0.08em] uppercase px-6 py-3 rounded-full shadow-paper-sm hover:shadow-paper transition-all hover:-translate-y-0.5"
             >
               {isFinished ? (
                 <>
@@ -275,7 +275,7 @@ function AnsiTerminal({ onStart }: AnsiTerminalProps) {
                 </>
               ) : (
                 <>
-                  <Play size={20} fill="currentColor" /> {hasStarted ? 'RESUME' : 'CLICK TO CONNECT'}
+                  <Play size={20} fill="currentColor" /> {hasStarted ? 'RESUME' : 'OPEN THE MESSAGE'}
                 </>
               )}
             </button>
@@ -283,7 +283,7 @@ function AnsiTerminal({ onStart }: AnsiTerminalProps) {
         )}
       </div>
 
-      <div className="h-1.5 bg-terminal-bg border-t-[3px] border-ink">
+      <div className="h-1.5 bg-terminal-bg border-t border-terminal-dim/70">
         <div
           className="h-full bg-terminal-green transition-all duration-200"
           style={{ width: `${(revealedLines / TOTAL_LINES) * 100}%` }}
