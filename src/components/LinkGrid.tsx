@@ -6,8 +6,7 @@ type LinkCard = {
   title: string;
   subtitle: string;
   url: string;
-  bg: string;
-  accent: string;
+  tone: string;
   onClick?: (e: React.MouseEvent, onOpenBlog?: () => void) => void;
 };
 
@@ -15,10 +14,9 @@ const LINKS: LinkCard[] = [
   {
     icon: BookOpen,
     title: 'Read the Blog',
-    subtitle: 'I Built a 26 slide conference deck with AI',
+    subtitle: 'I built a 26-slide conference deck with AI',
     url: '#blog',
-    bg: 'bg-forest',
-    accent: 'text-cream',
+    tone: 'bg-forest text-cream',
     onClick: (e, onOpenBlog) => {
       e.preventDefault();
       if (onOpenBlog) {
@@ -30,35 +28,31 @@ const LINKS: LinkCard[] = [
   },
   {
     icon: Twitter,
-    title: 'Follow on X / Twitter',
+    title: 'Say hello on X',
     subtitle: '@TasonJorres',
     url: 'https://x.com/TasonJorres',
-    bg: 'bg-slateblue',
-    accent: 'text-amber',
+    tone: 'bg-slateblue text-cream',
   },
   {
     icon: Github,
-    title: 'GitHub Repositories',
+    title: 'Visit GitHub',
     subtitle: 'github.com/jasonetorres',
     url: 'https://github.com/jasonetorres',
-    bg: 'bg-rust',
-    accent: 'text-cream',
+    tone: 'bg-rust text-cream',
   },
   {
     icon: Linkedin,
     title: 'Connect on LinkedIn',
     subtitle: 'linkedin.com/in/thejasontorres',
     url: 'https://www.linkedin.com/in/thejasontorres/',
-    bg: 'bg-slateblue',
-    accent: 'text-amber',
+    tone: 'bg-slateblue text-cream',
   },
   {
     icon: Code2,
-    title: 'JetBrains WebStorm',
+    title: 'WebStorm',
     subtitle: 'jetbrains.com/webstorm',
     url: 'https://www.jetbrains.com/webstorm/',
-    bg: 'bg-amber',
-    accent: 'text-ink',
+    tone: 'bg-amber text-ink',
   },
 ];
 
@@ -68,10 +62,11 @@ interface LinkGridProps {
 
 function LinkGrid({ onOpenBlog }: LinkGridProps) {
   return (
-    <div className="grid grid-cols-1 gap-5 sm:gap-6 w-full max-w-3xl">
-      {LINKS.map((link) => {
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 w-full max-w-4xl">
+      {LINKS.map((link, index) => {
         const Icon = link.icon;
         const isInternal = Boolean(link.onClick);
+        const lastIsOdd = index === LINKS.length - 1 && LINKS.length % 2 === 1;
 
         return (
           <a
@@ -80,18 +75,24 @@ function LinkGrid({ onOpenBlog }: LinkGridProps) {
             target={isInternal ? undefined : '_blank'}
             rel={isInternal ? undefined : 'noopener noreferrer'}
             onClick={link.onClick ? (e) => link.onClick?.(e, onOpenBlog) : undefined}
-            className="paper-card cutout group flex items-center gap-4 p-4 sm:p-5 no-underline cursor-pointer"
+            className={
+              'paper-card group flex items-center gap-4 p-4 sm:p-5 no-underline cursor-pointer overflow-hidden ' +
+              (lastIsOdd ? 'sm:col-span-2 sm:max-w-[calc(50%-0.625rem)] sm:w-full sm:justify-self-center' : '')
+            }
           >
+            <div className="absolute inset-y-0 left-0 w-1.5 bg-rust/75" aria-hidden="true" />
+
             <div
-              className={`flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 ${link.bg} border-[3px] border-ink rounded-[10px] flex items-center justify-center ${link.accent} transition-transform duration-200 group-hover:rotate-[-6deg] group-hover:scale-110`}
+              className={'flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center shadow-paper-sm transition-transform duration-200 group-hover:scale-105 ' + link.tone}
             >
-              <Icon size={26} strokeWidth={2.5} />
+              <Icon size={23} strokeWidth={2.2} />
             </div>
-            <div className="min-w-0">
-              <h3 className="font-display text-xl sm:text-2xl text-ink leading-tight tracking-wide">
+
+            <div className="min-w-0 pr-2">
+              <h3 className="font-display text-xl sm:text-2xl text-slateblue leading-tight">
                 {link.title}
               </h3>
-              <p className="font-mono text-xs sm:text-sm text-ink/70 truncate">{link.subtitle}</p>
+              <p className="font-body text-sm text-ink/65 truncate mt-0.5">{link.subtitle}</p>
             </div>
           </a>
         );
