@@ -1,4 +1,3 @@
-import RubberDuck from '@/components/RubberDuck';
 import {
   AlertTriangle,
   ArrowLeft,
@@ -6,7 +5,6 @@ import {
   BookOpen,
   Calendar,
   Clock,
-  Copyright,
   ExternalLink,
   Eye,
   FileCode2,
@@ -33,32 +31,32 @@ function BlogPost({ onBack }: BlogPostProps) {
         <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4">
           <button
             onClick={onBack}
-            className="paper-card cutout group inline-flex items-center gap-2 px-4 py-2 bg-amber hover:bg-amber-light text-ink font-mono text-sm font-bold rounded-[8px] transition-transform duration-150 active:scale-95 cursor-pointer"
+            className="group inline-flex items-center gap-2 px-4 py-2.5 bg-slateblue hover:bg-slateblue/90 text-cream font-body text-sm font-extrabold rounded-full shadow-paper-sm transition-all duration-150 active:scale-95 cursor-pointer"
           >
             <ArrowLeft
               size={18}
               strokeWidth={2.5}
               className="transition-transform group-hover:-translate-x-1"
             />
-            <span>Back to Devville</span>
+            <span>Back to the Archive</span>
           </button>
 
-          <div className="inline-flex items-center gap-2 bg-forest text-cream font-mono text-xs sm:text-sm font-bold tracking-wide uppercase px-3.5 py-1.5 border-[3px] border-ink rounded-full shadow-paper-sm rotate-1">
+          <div className="inline-flex items-center gap-2 bg-forest text-cream font-body text-[11px] sm:text-xs font-extrabold tracking-[0.14em] uppercase px-4 py-2 rounded-full shadow-paper-sm">
             <Sparkles size={14} className="text-amber animate-pulse" />
-            <span>Attendee Exclusive • Early First Read</span>
+            <span>Neighborhood Archive • Episode 1</span>
           </div>
         </div>
 
         {/* HEADER */}
         <header className="flex flex-col items-center text-center gap-4 sm:gap-6 w-full">
-          <div className="inline-flex items-center gap-2 bg-rust text-cream font-mono text-xs sm:text-sm font-bold uppercase px-4 py-1.5 border-[3px] border-ink rounded-full shadow-paper-sm rotate-[-1deg]">
+          <div className="inline-flex items-center gap-2 bg-rust text-cream font-body text-[11px] sm:text-xs font-extrabold uppercase tracking-[0.14em] px-4 py-2 rounded-full shadow-paper-sm">
             <BookOpen size={15} className="text-amber" />
-            Musings of an Idiot • Devville Dispatch
+            From Mister Torres’ Notebook
           </div>
 
-          <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl text-ink leading-[1.08] tracking-wide max-w-3xl">
+          <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl text-slateblue leading-[1.03] tracking-[-0.025em] max-w-3xl">
             I Built a 26-Slide Conference Deck with{' '}
-            <span className="text-forest text-stroke-ink">AI</span>
+            <span className="text-rust">AI</span>
           </h1>
 
           <p className="font-body text-xl sm:text-2xl text-ink/80 max-w-2xl">
@@ -82,11 +80,26 @@ function BlogPost({ onBack }: BlogPostProps) {
           </div>
         </header>
 
+        <div className="w-full max-w-3xl wood-frame rounded-[22px] p-2.5 sm:p-3">
+          <div className="bg-cream rounded-[16px] px-5 py-6 sm:px-8 sm:py-7 text-center">
+            <p className="font-body text-[11px] sm:text-xs font-extrabold tracking-[0.16em] uppercase text-rust">
+              Before there was a neighborhood
+            </p>
+            <p className="font-display text-2xl sm:text-3xl text-slateblue mt-1">
+              There was Devville.
+            </p>
+            <p className="font-body text-base sm:text-lg text-ink/70 max-w-xl mx-auto mt-2 leading-relaxed">
+              This is the story behind Episode 1 — the strange little world that eventually became
+              the foundation for Mister Torres’ Neighborhood.
+            </p>
+          </div>
+        </div>
+
         {/* MAIN ARTICLE BODY */}
         <article className="w-full flex flex-col gap-10 sm:gap-14">
           {/* OPENING HOOK CARD */}
           <div className="paper-card cutout p-6 sm:p-10 flex flex-col gap-6">
-            <div className="bg-amber/25 border-l-4 border-amber p-4 sm:p-5 rounded-r-[6px] rotate-[-0.5deg]">
+            <div className="bg-amber/25 border-l-4 border-amber p-4 sm:p-5 rounded-r-[6px]">
               <p className="font-body text-2xl sm:text-3xl text-ink leading-snug font-bold">
                 “I wasn't kidding! I have spent an unreasonable amount of time arguing with an AI
                 about the radius of a fucking rectangle.”
@@ -114,7 +127,7 @@ function BlogPost({ onBack }: BlogPostProps) {
               So I turned the whole thing into a children’s storybook. Because, why not.
             </p>
 
-            <div className="bg-cream border-[3px] border-ink rounded-[10px] p-5 sm:p-6 shadow-paper-sm flex flex-col gap-3">
+            <div className="bg-cream border border-wood-dark/25 rounded-[14px] p-5 sm:p-6 shadow-paper-sm flex flex-col gap-3">
               <h3 className="font-display text-2xl text-slateblue text-stroke-ink tracking-wide">
                 The Birth of Devville
               </h3>
@@ -147,10 +160,10 @@ function BlogPost({ onBack }: BlogPostProps) {
           {/* SECTION 1: THE IDEA WAS NEVER MAKE ME SOME SLIDES */}
           <section className="paper-card cutout p-6 sm:p-10 flex flex-col gap-6">
             <div className="flex items-center gap-3 border-b-2 border-ink/15 pb-3">
-              <span className="w-9 h-9 rounded-[8px] bg-slateblue border-[2px] border-ink flex items-center justify-center text-amber font-mono font-bold text-lg">
+              <span className="w-9 h-9 rounded-[12px] bg-slateblue border border-wood-dark/25 flex items-center justify-center text-amber font-mono font-bold text-lg">
                 1
               </span>
-              <h2 className="font-display text-2xl sm:text-4xl text-ink tracking-wide">
+              <h2 className="font-display text-2xl sm:text-4xl text-slateblue tracking-[-0.015em]">
                 The Idea Was Never “Make Me Some Slides”
               </h2>
             </div>
@@ -168,8 +181,8 @@ function BlogPost({ onBack }: BlogPostProps) {
             </p>
 
             {/* VERSE CARD: THE CORE ARGUMENT */}
-            <div className="bg-cream border-[3px] border-ink rounded-[14px] p-6 sm:p-8 shadow-paper relative rotate-[-0.5deg]">
-              <div className="absolute -top-3.5 left-6 bg-forest text-cream font-mono text-xs uppercase font-bold px-3 py-1 border-[2px] border-ink rounded-full">
+            <div className="bg-cream border border-wood-dark/25 rounded-[14px] p-6 sm:p-8 shadow-paper relative">
+              <div className="absolute -top-3.5 left-6 bg-forest text-cream font-mono text-xs uppercase font-bold px-3 py-1 border border-wood-dark/25 rounded-full">
                 The Core Argument
               </div>
               <p className="font-display text-xl sm:text-2xl text-ink leading-relaxed tracking-wide pt-2">
@@ -197,10 +210,10 @@ function BlogPost({ onBack }: BlogPostProps) {
           {/* SECTION 2: ANGIE JONES WORKFLOW */}
           <section className="paper-card cutout p-6 sm:p-10 flex flex-col gap-6">
             <div className="flex items-center gap-3 border-b-2 border-ink/15 pb-3">
-              <span className="w-9 h-9 rounded-[8px] bg-forest border-[2px] border-ink flex items-center justify-center text-cream font-mono font-bold text-lg">
+              <span className="w-9 h-9 rounded-[12px] bg-forest border border-wood-dark/25 flex items-center justify-center text-cream font-mono font-bold text-lg">
                 2
               </span>
-              <h2 className="font-display text-2xl sm:text-4xl text-ink tracking-wide">
+              <h2 className="font-display text-2xl sm:text-4xl text-slateblue tracking-[-0.015em]">
                 Then Angie Jones Gave Me the Workflow I Needed
               </h2>
             </div>
@@ -223,7 +236,7 @@ function BlogPost({ onBack }: BlogPostProps) {
               I spoke with her and asked how she had designed it.
             </p>
 
-            <div className="bg-amber/30 border-2 border-ink rounded-[10px] p-5 sm:p-6 shadow-paper-sm">
+            <div className="bg-amber/30 border-2 border-ink rounded-[14px] p-5 sm:p-6 shadow-paper-sm">
               <p className="font-body text-xl sm:text-2xl text-ink font-bold leading-relaxed">
                 Her answer was deceptively simple:
                 <br />
@@ -242,25 +255,25 @@ function BlogPost({ onBack }: BlogPostProps) {
             </p>
 
             {/* FLOW DIAGRAM */}
-            <div className="bg-terminal-bg border-[3px] border-ink rounded-[10px] p-5 sm:p-6 text-terminal-green font-mono">
+            <div className="bg-terminal-bg border border-wood-dark/25 rounded-[14px] p-5 sm:p-6 text-terminal-green font-mono">
               <div className="text-terminal-cyan text-xs sm:text-sm font-bold uppercase mb-3 flex items-center gap-2">
                 <Workflow size={16} />
                 The Angie Jones Framework
               </div>
               <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base font-bold">
-                <span className="bg-terminal-dim px-3 py-1.5 rounded-[6px] text-cream border border-terminal-cyan/40">
+                <span className="bg-terminal-dim px-3 py-1.5 rounded-[14px] text-cream border border-terminal-cyan/40">
                   1. World
                 </span>
                 <span className="text-amber">→</span>
-                <span className="bg-terminal-dim px-3 py-1.5 rounded-[6px] text-cream border border-terminal-cyan/40">
+                <span className="bg-terminal-dim px-3 py-1.5 rounded-[14px] text-cream border border-terminal-cyan/40">
                   2. Characters
                 </span>
                 <span className="text-amber">→</span>
-                <span className="bg-terminal-dim px-3 py-1.5 rounded-[6px] text-cream border border-terminal-cyan/40">
+                <span className="bg-terminal-dim px-3 py-1.5 rounded-[14px] text-cream border border-terminal-cyan/40">
                   3. Scenes
                 </span>
                 <span className="text-amber">→</span>
-                <span className="bg-terminal-dim px-3 py-1.5 rounded-[6px] text-cream border border-terminal-cyan/40">
+                <span className="bg-terminal-dim px-3 py-1.5 rounded-[14px] text-cream border border-terminal-cyan/40">
                   4. Slides
                 </span>
               </div>
@@ -274,7 +287,7 @@ function BlogPost({ onBack }: BlogPostProps) {
               into scenes and turning those scenes into slides.
             </p>
 
-            <div className="bg-cream border-[2px] border-ink p-4 rounded-[8px] font-mono text-sm">
+            <div className="bg-cream border border-wood-dark/25 p-4 rounded-[12px] font-mono text-sm">
               <span className="text-rust font-bold block mb-1">Old Prompt Mindset:</span>
               <p className="text-ink/80 italic">“Make me Slide 12.”</p>
               <span className="text-forest font-bold block mt-3 mb-1">New Directed System:</span>
@@ -288,11 +301,11 @@ function BlogPost({ onBack }: BlogPostProps) {
           {/* SECTION 3: MISTAKE 1 - CAST */}
           <section className="paper-card cutout p-6 sm:p-10 flex flex-col gap-6">
             <div className="flex items-center gap-3 border-b-2 border-ink/15 pb-3">
-              <div className="inline-flex items-center gap-1.5 bg-rust text-cream font-mono text-xs font-bold px-3 py-1 border-[2px] border-ink rounded-full">
+              <div className="inline-flex items-center gap-1.5 bg-rust text-cream font-body text-xs font-extrabold px-3 py-1.5 rounded-full">
                 <AlertTriangle size={14} />
                 Mistake #1
               </div>
-              <h2 className="font-display text-2xl sm:text-4xl text-ink tracking-wide">
+              <h2 className="font-display text-2xl sm:text-4xl text-slateblue tracking-[-0.015em]">
                 I Built Scenes Before I Built the Cast
               </h2>
             </div>
@@ -311,7 +324,7 @@ function BlogPost({ onBack }: BlogPostProps) {
             </p>
 
             {/* THE CAST CARDS */}
-            <div className="bg-cream border-[3px] border-ink rounded-[10px] p-5 sm:p-6 flex flex-col gap-4 shadow-paper-sm">
+            <div className="bg-cream border border-wood-dark/25 rounded-[14px] p-5 sm:p-6 flex flex-col gap-4 shadow-paper-sm">
               <div className="flex items-center gap-2">
                 <Users size={20} className="text-slateblue" />
                 <h3 className="font-display text-2xl text-ink tracking-wide">
@@ -320,27 +333,27 @@ function BlogPost({ onBack }: BlogPostProps) {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs sm:text-sm">
-                <div className="p-3 bg-amber/20 border border-ink/30 rounded-[6px]">
+                <div className="p-3 bg-amber/20 border border-ink/30 rounded-[14px]">
                   <strong className="text-ink block font-bold text-sm">The IDE (Jason):</strong>
                   Black OUT OF OFFICE hat, mustache, reddish-brown jacket, red gloves, blue pants.
                 </div>
-                <div className="p-3 bg-slate-100 border border-ink/30 rounded-[6px]">
+                <div className="p-3 bg-slate-100 border border-ink/30 rounded-[14px]">
                   <strong className="text-ink block font-bold text-sm">Kent C. Dodds:</strong>
                   Dark hair and signature black JUST SHIP IT shirt.
                 </div>
-                <div className="p-3 bg-emerald-50 border border-ink/30 rounded-[6px]">
+                <div className="p-3 bg-emerald-50 border border-ink/30 rounded-[14px]">
                   <strong className="text-ink block font-bold text-sm">Aaron Francis:</strong>
                   Lighter brown hair and rectangular glasses.
                 </div>
-                <div className="p-3 bg-rose-50 border border-ink/30 rounded-[6px]">
+                <div className="p-3 bg-rose-50 border border-ink/30 rounded-[14px]">
                   <strong className="text-ink block font-bold text-sm">Heather Downing:</strong>
                   Long dark hair and dark green top.
                 </div>
-                <div className="p-3 bg-indigo-50 border border-ink/30 rounded-[6px]">
+                <div className="p-3 bg-indigo-50 border border-ink/30 rounded-[14px]">
                   <strong className="text-ink block font-bold text-sm">Chris Dabatos:</strong>
                   Black hair, glasses, and cozy gray sweater.
                 </div>
-                <div className="p-3 bg-amber-50 border border-ink/30 rounded-[6px]">
+                <div className="p-3 bg-amber-50 border border-ink/30 rounded-[14px]">
                   <strong className="text-ink block font-bold text-sm">Lawrence & Dennis:</strong>
                   Lawrence (bald + beard, collared shirt), Dennis (brown hair, hoodie).
                 </div>
@@ -370,11 +383,11 @@ function BlogPost({ onBack }: BlogPostProps) {
           {/* SECTION 4: MISTAKE 2 - DEVILLE DESIGN SYSTEM */}
           <section className="paper-card cutout p-6 sm:p-10 flex flex-col gap-6">
             <div className="flex items-center gap-3 border-b-2 border-ink/15 pb-3">
-              <div className="inline-flex items-center gap-1.5 bg-rust text-cream font-mono text-xs font-bold px-3 py-1 border-[2px] border-ink rounded-full">
+              <div className="inline-flex items-center gap-1.5 bg-rust text-cream font-body text-xs font-extrabold px-3 py-1.5 rounded-full">
                 <AlertTriangle size={14} />
                 Mistake #2
               </div>
-              <h2 className="font-display text-2xl sm:text-4xl text-ink tracking-wide">
+              <h2 className="font-display text-2xl sm:text-4xl text-slateblue tracking-[-0.015em]">
                 I Didn’t Build Devville Before Using Devville
               </h2>
             </div>
@@ -387,7 +400,7 @@ function BlogPost({ onBack }: BlogPostProps) {
             </p>
 
             {/* PALETTE BOX */}
-            <div className="bg-cream border-[3px] border-ink rounded-[10px] p-5 sm:p-6 flex flex-col gap-4 shadow-paper-sm">
+            <div className="bg-cream border border-wood-dark/25 rounded-[14px] p-5 sm:p-6 flex flex-col gap-4 shadow-paper-sm">
               <div className="flex items-center gap-2">
                 <Palette size={20} className="text-forest" />
                 <h3 className="font-display text-2xl text-ink tracking-wide">
@@ -396,31 +409,31 @@ function BlogPost({ onBack }: BlogPostProps) {
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 font-mono text-xs">
-                <div className="flex flex-col items-center gap-1 p-2 bg-[#F2EDE3] border-[2px] border-ink rounded-[6px]">
+                <div className="flex flex-col items-center gap-1 p-2 bg-[#F2EDE3] border border-wood-dark/25 rounded-[14px]">
                   <span className="font-bold text-ink">Cream</span>
                   <span className="text-ink/70">#F2EDE3</span>
                 </div>
-                <div className="flex flex-col items-center gap-1 p-2 bg-[#4B5E7A] text-cream border-[2px] border-ink rounded-[6px]">
+                <div className="flex flex-col items-center gap-1 p-2 bg-[#4B5E7A] text-cream border border-wood-dark/25 rounded-[14px]">
                   <span className="font-bold">Slate Blue</span>
                   <span className="text-cream/80">#4B5E7A</span>
                 </div>
-                <div className="flex flex-col items-center gap-1 p-2 bg-[#2E5A3C] text-cream border-[2px] border-ink rounded-[6px]">
+                <div className="flex flex-col items-center gap-1 p-2 bg-[#2E5A3C] text-cream border border-wood-dark/25 rounded-[14px]">
                   <span className="font-bold">Forest</span>
                   <span className="text-cream/80">#2E5A3C</span>
                 </div>
-                <div className="flex flex-col items-center gap-1 p-2 bg-[#E6A33A] text-ink border-[2px] border-ink rounded-[6px]">
+                <div className="flex flex-col items-center gap-1 p-2 bg-[#E6A33A] text-ink border border-wood-dark/25 rounded-[14px]">
                   <span className="font-bold">Gold</span>
                   <span className="text-ink/80">#E6A33A</span>
                 </div>
-                <div className="flex flex-col items-center gap-1 p-2 bg-[#C24A3A] text-cream border-[2px] border-ink rounded-[6px]">
+                <div className="flex flex-col items-center gap-1 p-2 bg-[#C24A3A] text-cream border border-wood-dark/25 rounded-[14px]">
                   <span className="font-bold">Red</span>
                   <span className="text-cream/80">#C24A3A</span>
                 </div>
-                <div className="flex flex-col items-center gap-1 p-2 bg-[#3BA39C] text-ink border-[2px] border-ink rounded-[6px]">
+                <div className="flex flex-col items-center gap-1 p-2 bg-[#3BA39C] text-ink border border-wood-dark/25 rounded-[14px]">
                   <span className="font-bold">Teal</span>
                   <span className="text-ink/80">#3BA39C</span>
                 </div>
-                <div className="flex flex-col items-center gap-1 p-2 bg-[#6C5A8E] text-cream border-[2px] border-ink rounded-[6px]">
+                <div className="flex flex-col items-center gap-1 p-2 bg-[#6C5A8E] text-cream border border-wood-dark/25 rounded-[14px]">
                   <span className="font-bold">Purple</span>
                   <span className="text-cream/80">#6C5A8E</span>
                 </div>
@@ -438,11 +451,11 @@ function BlogPost({ onBack }: BlogPostProps) {
           {/* SECTION 5: MISTAKE 3 - INDEPENDENT POSTERS & ROUNDED RECTANGLE */}
           <section className="paper-card cutout p-6 sm:p-10 flex flex-col gap-6">
             <div className="flex items-center gap-3 border-b-2 border-ink/15 pb-3">
-              <div className="inline-flex items-center gap-1.5 bg-rust text-cream font-mono text-xs font-bold px-3 py-1 border-[2px] border-ink rounded-full">
+              <div className="inline-flex items-center gap-1.5 bg-rust text-cream font-body text-xs font-extrabold px-3 py-1.5 rounded-full">
                 <AlertTriangle size={14} />
                 Mistake #3
               </div>
-              <h2 className="font-display text-2xl sm:text-4xl text-ink tracking-wide">
+              <h2 className="font-display text-2xl sm:text-4xl text-slateblue tracking-[-0.015em]">
                 I Treated Every Slide Like an Independent Poster
               </h2>
             </div>
@@ -456,7 +469,7 @@ function BlogPost({ onBack }: BlogPostProps) {
 
             {/* THE FAMOUS RECTANGLE CALLOUT */}
             <div className="bg-[#F2EDE3] border-[4px] border-ink rounded-[18px] p-6 sm:p-8 shadow-paper relative">
-              <div className="inline-flex items-center gap-2 bg-rust text-cream font-mono text-xs uppercase font-bold px-3 py-1 border-[2px] border-ink rounded-full mb-3">
+              <div className="inline-flex items-center gap-2 bg-rust text-cream font-mono text-xs uppercase font-bold px-3 py-1 border border-wood-dark/25 rounded-full mb-3">
                 <Flame size={14} className="text-amber" />
                 The Infamous Rounded Rectangle
               </div>
@@ -478,7 +491,7 @@ function BlogPost({ onBack }: BlogPostProps) {
               </p>
             </div>
 
-            <p className="font-mono text-sm sm:text-base font-bold text-forest bg-forest/10 p-4 border border-forest/30 rounded-[8px]">
+            <p className="font-mono text-sm sm:text-base font-bold text-forest bg-forest/10 p-4 border border-forest/30 rounded-[12px]">
               Rule: If I correct the same visual element twice, I stop rewriting the prompt and turn
               the correct version into a reference asset.
             </p>
@@ -487,11 +500,11 @@ function BlogPost({ onBack }: BlogPostProps) {
           {/* SECTION 6: MISTAKE 4 - AI DECORATION & BEAST SLIDE */}
           <section className="paper-card cutout p-6 sm:p-10 flex flex-col gap-6">
             <div className="flex items-center gap-3 border-b-2 border-ink/15 pb-3">
-              <div className="inline-flex items-center gap-1.5 bg-rust text-cream font-mono text-xs font-bold px-3 py-1 border-[2px] border-ink rounded-full">
+              <div className="inline-flex items-center gap-1.5 bg-rust text-cream font-body text-xs font-extrabold px-3 py-1.5 rounded-full">
                 <AlertTriangle size={14} />
                 Mistake #4
               </div>
-              <h2 className="font-display text-2xl sm:text-4xl text-ink tracking-wide">
+              <h2 className="font-display text-2xl sm:text-4xl text-slateblue tracking-[-0.015em]">
                 I Let the AI Decorate
               </h2>
             </div>
@@ -517,7 +530,7 @@ function BlogPost({ onBack }: BlogPostProps) {
             </div>
 
             {/* THE BEAST SLIDE CASE STUDY */}
-            <div className="bg-terminal-bg border-[3px] border-ink rounded-[12px] p-6 text-terminal-green font-mono shadow-paper flex flex-col gap-4">
+            <div className="bg-terminal-bg border border-wood-dark/25 rounded-[12px] p-6 text-terminal-green font-mono shadow-paper flex flex-col gap-4">
               <div className="flex items-center justify-between text-terminal-cyan text-xs font-bold uppercase border-b border-terminal-dim pb-2">
                 <span className="flex items-center gap-2">
                   <Terminal size={16} />
@@ -548,11 +561,11 @@ function BlogPost({ onBack }: BlogPostProps) {
           {/* SECTION 7: MISTAKE 5 - BAD RHYMES, REAL PEOPLE & ARTIFACTS */}
           <section className="paper-card cutout p-6 sm:p-10 flex flex-col gap-6">
             <div className="flex items-center gap-3 border-b-2 border-ink/15 pb-3">
-              <div className="inline-flex items-center gap-1.5 bg-rust text-cream font-mono text-xs font-bold px-3 py-1 border-[2px] border-ink rounded-full">
+              <div className="inline-flex items-center gap-1.5 bg-rust text-cream font-body text-xs font-extrabold px-3 py-1.5 rounded-full">
                 <AlertTriangle size={14} />
                 Mistake #5
               </div>
-              <h2 className="font-display text-2xl sm:text-4xl text-ink tracking-wide">
+              <h2 className="font-display text-2xl sm:text-4xl text-slateblue tracking-[-0.015em]">
                 I Let Rhyme Excuse Bad Writing
               </h2>
             </div>
@@ -564,7 +577,7 @@ function BlogPost({ onBack }: BlogPostProps) {
               because “glass” rhymed with “class.”
             </p>
 
-            <div className="bg-cream border-[3px] border-ink rounded-[10px] p-5 sm:p-6 flex flex-col gap-3 shadow-paper-sm">
+            <div className="bg-cream border border-wood-dark/25 rounded-[14px] p-5 sm:p-6 flex flex-col gap-3 shadow-paper-sm">
               <span className="font-mono text-xs font-bold uppercase text-forest">
                 The Rewritten Semantic Passage (Slides 7 & 8)
               </span>
@@ -597,27 +610,27 @@ function BlogPost({ onBack }: BlogPostProps) {
                 benchmark slide didn’t need a monster. The deck developed distinct slide families:
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 font-mono text-xs">
-                <div className="p-3 bg-cream border-[2px] border-ink rounded-[6px]">
+                <div className="p-3 bg-cream border border-wood-dark/25 rounded-[14px]">
                   <strong className="text-forest block font-bold mb-1">Story Slides</strong>
                   Characters and environments moving the narrative.
                 </div>
-                <div className="p-3 bg-cream border-[2px] border-ink rounded-[6px]">
+                <div className="p-3 bg-cream border border-wood-dark/25 rounded-[14px]">
                   <strong className="text-slateblue block font-bold mb-1">Data & Receipts</strong>
                   Clean numbers, terminal stats, and benchmarks.
                 </div>
-                <div className="p-3 bg-cream border-[2px] border-ink rounded-[6px]">
+                <div className="p-3 bg-cream border border-wood-dark/25 rounded-[14px]">
                   <strong className="text-rust block font-bold mb-1">Testimonials</strong>
                   Real developer quotes with locked character portraits.
                 </div>
-                <div className="p-3 bg-cream border-[2px] border-ink rounded-[6px]">
+                <div className="p-3 bg-cream border border-wood-dark/25 rounded-[14px]">
                   <strong className="text-amber block font-bold mb-1">Architectural Framework</strong>
                   Levels of agentic adoption and IDE responsibility.
                 </div>
-                <div className="p-3 bg-cream border-[2px] border-ink rounded-[6px]">
+                <div className="p-3 bg-cream border border-wood-dark/25 rounded-[14px]">
                   <strong className="text-purple-700 block font-bold mb-1">Document Artifacts</strong>
                   Real customer letters presented as physical paper.
                 </div>
-                <div className="p-3 bg-cream border-[2px] border-ink rounded-[6px]">
+                <div className="p-3 bg-cream border border-wood-dark/25 rounded-[14px]">
                   <strong className="text-ink block font-bold mb-1">Interactive Code</strong>
                   Code editors and terminal command-and-control.
                 </div>
@@ -630,19 +643,19 @@ function BlogPost({ onBack }: BlogPostProps) {
                 Intentional Character Evolution (The 4 IDE States)
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs sm:text-sm">
-                <div className="p-3.5 bg-cream border-[2px] border-ink rounded-[8px]">
+                <div className="p-3.5 bg-cream border border-wood-dark/25 rounded-[12px]">
                   <strong className="text-forest block font-bold">State 1: Traditional IDE</strong>
                   Working in the cozy wooden workshop.
                 </div>
-                <div className="p-3.5 bg-cream border-[2px] border-ink rounded-[8px]">
+                <div className="p-3.5 bg-cream border border-wood-dark/25 rounded-[12px]">
                   <strong className="text-slateblue block font-bold">State 2: Semantic Glasses</strong>
                   ASTs, dependency graphs, variable flow.
                 </div>
-                <div className="p-3.5 bg-cream border-[2px] border-ink rounded-[8px]">
+                <div className="p-3.5 bg-cream border border-wood-dark/25 rounded-[12px]">
                   <strong className="text-rust block font-bold">State 3: Command & Control</strong>
                   Diffs, breakpoints, call stacks, logs.
                 </div>
-                <div className="p-3.5 bg-cream border-[2px] border-ink rounded-[8px]">
+                <div className="p-3.5 bg-cream border border-wood-dark/25 rounded-[12px]">
                   <strong className="text-amber block font-bold">State 4: The Cockpit</strong>
                   Confident supervisory cockpit for agent swarms.
                 </div>
@@ -666,11 +679,11 @@ function BlogPost({ onBack }: BlogPostProps) {
           {/* SECTION 8: MISTAKE 6 - SANE VERSION CONTROL & NEGATIVE CONSTRAINTS */}
           <section className="paper-card cutout p-6 sm:p-10 flex flex-col gap-6">
             <div className="flex items-center gap-3 border-b-2 border-ink/15 pb-3">
-              <div className="inline-flex items-center gap-1.5 bg-rust text-cream font-mono text-xs font-bold px-3 py-1 border-[2px] border-ink rounded-full">
+              <div className="inline-flex items-center gap-1.5 bg-rust text-cream font-body text-xs font-extrabold px-3 py-1.5 rounded-full">
                 <AlertTriangle size={14} />
                 Mistake #6
               </div>
-              <h2 className="font-display text-2xl sm:text-4xl text-ink tracking-wide">
+              <h2 className="font-display text-2xl sm:text-4xl text-slateblue tracking-[-0.015em]">
                 I Assembled the PowerPoint Without Sane Version Control
               </h2>
             </div>
@@ -696,7 +709,7 @@ function BlogPost({ onBack }: BlogPostProps) {
             </div>
 
             {/* NEGATIVE CONSTRAINTS LIST */}
-            <div className="bg-cream border-[3px] border-ink rounded-[10px] p-5 sm:p-6 flex flex-col gap-3 shadow-paper-sm">
+            <div className="bg-cream border border-wood-dark/25 rounded-[14px] p-5 sm:p-6 flex flex-col gap-3 shadow-paper-sm">
               <div className="flex items-center gap-2">
                 <ShieldAlert size={20} className="text-rust" />
                 <h3 className="font-display text-xl sm:text-2xl text-ink tracking-wide">
@@ -727,7 +740,7 @@ function BlogPost({ onBack }: BlogPostProps) {
             </div>
 
             {/* EPILOGUE & HIGH FIVE */}
-            <div className="bg-cream border-[2px] border-ink rounded-[8px] p-4 sm:p-5 flex flex-col gap-3 font-body text-lg sm:text-xl text-ink/90">
+            <div className="bg-cream border border-wood-dark/25 rounded-[12px] p-4 sm:p-5 flex flex-col gap-3 font-body text-lg sm:text-xl text-ink/90">
               <div className="flex items-center gap-2 font-display text-2xl text-slateblue">
                 <HandMetal size={20} />
                 The Ending: IDE & Terminal Beast High-Five
@@ -745,20 +758,20 @@ function BlogPost({ onBack }: BlogPostProps) {
           <section className="paper-card cutout p-6 sm:p-10 flex flex-col gap-6 bg-gradient-to-b from-cream to-amber/10">
             <div className="flex items-center gap-3 border-b-2 border-ink/15 pb-3">
               <Award size={24} className="text-amber" />
-              <h2 className="font-display text-2xl sm:text-4xl text-ink tracking-wide">
+              <h2 className="font-display text-2xl sm:text-4xl text-slateblue tracking-[-0.015em]">
                 What I Learned & What I'd Do Tomorrow
               </h2>
             </div>
 
             <div className="space-y-4 font-body text-lg sm:text-xl text-ink/90 leading-relaxed">
-              <div className="bg-amber/30 border-2 border-ink rounded-[10px] p-5 sm:p-6 font-bold text-xl sm:text-2xl text-ink">
+              <div className="bg-amber/30 border-2 border-ink rounded-[14px] p-5 sm:p-6 font-bold text-xl sm:text-2xl text-ink">
                 Don’t smash everything into one prompt. Build the story. Build the world. Build the
                 cast. Lock the things that should not change. Then use those pieces to create the
                 scenes.
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                <div className="p-4 bg-cream border-[2px] border-ink rounded-[8px]">
+                <div className="p-4 bg-cream border border-wood-dark/25 rounded-[12px]">
                   <div className="flex items-center gap-2 font-display text-xl text-forest mb-1">
                     <FileCode2 size={18} />
                     What AI Actually Did
@@ -769,7 +782,7 @@ function BlogPost({ onBack }: BlogPostProps) {
                     faster; the judgment isn’t.
                   </p>
                 </div>
-                <div className="p-4 bg-cream border-[2px] border-ink rounded-[8px]">
+                <div className="p-4 bg-cream border border-wood-dark/25 rounded-[12px]">
                   <div className="flex items-center gap-2 font-display text-xl text-slateblue mb-1">
                     <Eye size={18} />
                     The Golden Rules
@@ -783,7 +796,7 @@ function BlogPost({ onBack }: BlogPostProps) {
             </div>
 
             {/* CLOSING TAKEAWAY */}
-            <div className="bg-forest text-cream border-[3px] border-ink rounded-[12px] p-6 sm:p-8 shadow-paper mt-4">
+            <div className="bg-forest text-cream border border-wood-dark/25 rounded-[12px] p-6 sm:p-8 shadow-paper mt-4">
               <h3 className="font-display text-2xl sm:text-3xl text-amber text-stroke-ink tracking-wide mb-3">
                 The Result
               </h3>
@@ -809,7 +822,7 @@ function BlogPost({ onBack }: BlogPostProps) {
                 href="https://www.linkedin.com/newsletters/musings-of-an-idiot-7414020052481413120"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-slateblue text-cream hover:bg-slateblue/90 font-mono text-xs sm:text-sm font-bold rounded-[8px] border-[2px] border-ink shadow-paper-sm transition-transform active:scale-95 no-underline cursor-pointer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-slateblue text-cream hover:bg-slateblue/90 font-body text-xs sm:text-sm font-extrabold rounded-full shadow-paper-sm transition-transform active:scale-95 no-underline cursor-pointer"
               >
                 <span>Read Newsletter on LinkedIn</span>
                 <ExternalLink size={15} />
@@ -819,16 +832,14 @@ function BlogPost({ onBack }: BlogPostProps) {
         </article>
 
         {/* FOOTER */}
-        <footer className="relative w-full max-w-4xl paper-card cutout p-6 sm:p-8 mt-4">
-          <p className="font-body text-lg sm:text-xl text-ink text-center leading-relaxed max-w-2xl mx-auto">
-            <span className="inline-flex items-center justify-center gap-2">
-              <Copyright size={18} strokeWidth={2.5} className="text-ink" aria-hidden="true" />
-              Jason Torres 2026 • Devville
-            </span>
+        <footer className="w-full max-w-4xl text-center pt-2 pb-4">
+          <div className="h-[3px] w-full max-w-md mx-auto stitched-rule mb-6 opacity-70" />
+          <p className="font-display text-2xl sm:text-3xl text-slateblue">
+            Every neighborhood has a beginning.
           </p>
-          <div className="absolute -bottom-2 -right-2 sm:bottom-2 sm:right-2">
-            <RubberDuck />
-          </div>
+          <p className="font-body text-sm text-ink/60 mt-2">
+            Jason Torres · Neighborhood Archive · Episode 1 · 2026
+          </p>
         </footer>
       </div>
     </div>

@@ -13,16 +13,16 @@ type LinkCard = {
 const LINKS: LinkCard[] = [
   {
     icon: BookOpen,
-    title: 'Read the Blog',
-    subtitle: 'I built a 26-slide conference deck with AI',
-    url: '#blog',
+    title: 'Neighborhood Archive',
+    subtitle: 'The stories behind Episodes 1 and 2',
+    url: '#archive',
     tone: 'bg-forest text-cream',
     onClick: (e, onOpenBlog) => {
       e.preventDefault();
       if (onOpenBlog) {
         onOpenBlog();
       } else {
-        window.location.hash = '#blog';
+        window.location.hash = '#archive';
       }
     },
   },
